@@ -1,6 +1,5 @@
 <script setup>
   import { Locations, CurrentWeather, NextHours, NextFive } from '@/components';
-
 </script>
 
 <template>

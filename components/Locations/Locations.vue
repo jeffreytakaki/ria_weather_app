@@ -11,7 +11,7 @@ const handleSelectLocation = (location: string) => {
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 p-4">
         <div 
             v-for="location in weatherStore.locations" 
             :key="location"

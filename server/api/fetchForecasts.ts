@@ -4,13 +4,14 @@ export default defineEventHandler(async (event) => {
     try {
         const query = getQuery(event)
         const location = query.location
+        const apiKey = process.env.OPENWEATHER_API_KEY
 
         if (!location) {
             throw new Error('Location parameter is required')
         }
 
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appId=${process.env.OPENWEATHER_API_KEY}`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appId=${apiKey}`
         )
 
         if (!response.ok) {
@@ -18,6 +19,7 @@ export default defineEventHandler(async (event) => {
         }
 
         const data = await response.json()
+        console.log('Received forecast data for:', location)
         return data
     } catch (error) {
         return {

@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-
 export const useWeatherStore = defineStore('weather', () => {
     const loading = ref(false)
     const error = ref<string | null>(null)
-    const locations = ref<string[]>(['Rio De Janeiro', 'Beijing', 'Los Angeles'])
-    const weatherDataByLocation = ref<Record<any, any>>({})
+    const locations = ref<string[]>(['Rio De Janeiro', 'Beijing', 'Los Angeles']) // TODO - to be used to add new location data in Locations.vue
+    const weatherDataByLocation = ref<Record<any, any>>({}) // TODO update any to use proper type
     const isInitialized = ref(false)
     const selectedLocation = ref<string>(locations.value[0])
 
@@ -14,6 +13,7 @@ export const useWeatherStore = defineStore('weather', () => {
         loading.value = true
         error.value = null
 
+        // we need to make two calls to get the data we need, weather and forecast
         try {
             // Initialize the location data structure if it doesn't exist
             if (!weatherDataByLocation.value[location]) {
@@ -22,11 +22,10 @@ export const useWeatherStore = defineStore('weather', () => {
                     forecast: null
                 }
             }
-
             // Fetch both current weather and forecast in parallel
             const [currentResponse, forecastResponse] = await Promise.all([
                 fetch(`/api/fetchCurrentWeather?location=${location}`),
-                fetch(`/api/fetchForecast?location=${location}`)
+                fetch(`/api/fetchForecasts?location=${location}`)
             ])
 
             if (!currentResponse.ok || !forecastResponse.ok) {
@@ -44,8 +43,8 @@ export const useWeatherStore = defineStore('weather', () => {
                 forecast: forecastData
             }
 
-            console.log('Weather data updated for:', location, weatherDataByLocation.value[location])
         } catch (err) {
+            console.error('Error fetching weather data:', err)
             error.value = err instanceof Error ? err.message : 'An error occurred'
         } finally {
             loading.value = false
@@ -57,8 +56,10 @@ export const useWeatherStore = defineStore('weather', () => {
         if (isInitialized.value) return
 
         isInitialized.value = true
+
         const fetchPromises = locations.value.map(location => fetchWeatherData(location))
         await Promise.all(fetchPromises)
+
     }
 
     // Call init immediately
@@ -71,7 +72,7 @@ export const useWeatherStore = defineStore('weather', () => {
         weatherDataByLocation,
         isInitialized,
         selectedLocation,
-        fetchWeatherData
+        fetchWeatherData // TODO - to be used to add new location data in Locations.vue
     }
 })
 

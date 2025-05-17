@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <div class="bg-blue-500">
+  <div class="bg-blue-500 py-8">
     <h1>Weather App</h1>
     <Locations />
     <CurrentWeather />

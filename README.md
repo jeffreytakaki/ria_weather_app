@@ -1,75 +1,76 @@
-# RIA Weather App
+# Weather App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A weather application built with Nuxt 3 that displays current weather and 5-day forecasts for multiple locations.
+
+## Features
+
+- Current weather display with temperature, conditions, and icons
+- 5-day weather forecast
+- Multiple location support
+- Temperature conversion between Celsius and Fahrenheit
+- Responsive design
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- OpenWeather API key
 
 ## Setup
 
-Make sure to install dependencies:
-
+1. Clone the repository:
 ```bash
-# npm
+git clone <repository-url>
+cd ria_weather_app
+```
+
+2. Install dependencies:
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
+3. Create a `.env` file in the root directory:
 ```bash
-# npm
+touch .env
+```
+
+4. Add your OpenWeather API key to the `.env` file:
+```
+OPENWEATHER_API_KEY=your_api_key_here (provided by RIA)
+```
+
+
+## Development
+
+Start the development server:
+```bash
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+The application will be available at `http://localhost:3000`
 
-Build the application for production:
 
-```bash
-# npm
-npm run build
+## Project Structure
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+```
+ria_weather_app/
+├── components/          # Vue components
+│   ├── CurrentWeather/ # Current weather display
+│   ├── Forecast/       # Forecast components
+│   └── Locations/      # Location selection
+├── stores/             # Pinia stores
+├── utils/              # Utility functions
+├── server/             # API routes
+└── assets/            # Static assets
 ```
 
-Locally preview production build:
+## Technologies Used
 
-```bash
-# npm
-npm run preview
+- Nuxt 3
+- Vue 3
+- Pinia
+- Typescript
+- Tailwind CSS
+- OpenWeather API
 
-# pnpm
-pnpm preview
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

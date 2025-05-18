@@ -12,7 +12,7 @@
 
 <template>
      <Container>
-        <div v-if="weatherData">
+        <div v-if="weatherData?.current">
             <div class="text-center">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">
                     {{ weatherStore.selectedLocation }}

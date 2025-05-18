@@ -5,24 +5,59 @@
 
     const weatherStore = useWeatherStore()
     const weatherData = computed(() => weatherStore.weatherDataByLocation[weatherStore.selectedLocation])
+
+    const nextFiveDays = computed(() => {
+        if (!weatherData.value?.forecast?.list) return []
+        /*
+            we only have access to /forecast endpoint for 5 days by 3 hour intervals
+            break the list into 5 separate arrays of 8 items each (3hours x 8 = 24 hours)
+
+            calculate the lowest and highest temperatures for each day
+        */
+        const days = []
+        for (let i = 0; i < 40; i += 8) {
+            const chunk = weatherData.value.forecast.list.slice(i, i + 8)
+            
+            // Find min and max temperatures for this chunk
+            const temps = chunk.map(item => ({
+                min: item.main.temp_min,
+                max: item.main.temp_max,
+                dt_txt: item.dt_txt,
+                weather: item.weather[0]
+            })) 
+
+            const minTemp = Math.min(...temps.map(t => t.min))
+            const maxTemp = Math.max(...temps.map(t => t.max))
+
+            days.push({
+                dt: chunk[0].dt,
+                dt_txt: chunk[0].dt_txt,
+                temp_min: minTemp,
+                temp_max: maxTemp,
+                weather: chunk[4].weather[0] // use midday weather as representative
+            })
+        }
+
+        return days
+    })
 </script>
 
 <template>
     <Container>
-        <div v-if="weatherData?.forecast"">
+        <div v-if="nextFiveDays.length">
             <h1 class="text-2xl font-bold text-blue-500 mb-4">Next 5 days</h1>        
-            <div v-for="(day, index) in weatherData.forecast.list.filter((_, i) => i % 8 === 0)" :key="day.dt">
+            <div v-for="day in nextFiveDays" :key="day.dt">
                 <div class="flex items-center justify-between">
                     <div class="text-gray-600">{{ formatDate(day.dt_txt) }}</div>
-                    <div class="text-gray-600">{{ day.weather[0].description }}</div>
-                    <img :src="`https://openweathermap.org/img/wn/${day.weather[0].icon}.png`" alt="weather icon" class="w-10 h-10">
-                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.main.temp_min) }}</div>
-                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.main.temp_max) }}</div>
+                    <div class="text-gray-600">{{ day.weather.description }}</div>
+                    <img :src="`https://openweathermap.org/img/wn/${day.weather.icon}.png`" alt="weather icon" class="w-10 h-10">
+                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_min) }}</div>
+                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_max) }}</div>
                 </div>
             </div>
         </div>
 
-            <!-- Loading State -->
+        <!-- Loading State -->
         <div v-else-if="weatherStore.loading" class="text-center text-gray-600">
             Loading weather data...
         </div>

@@ -51,15 +51,19 @@ export const useWeatherStore = defineStore('weather', () => {
         }
     }
 
+    const refreshWeatherData = async () => {
+        console.log('refreshing weather data')
+        const fetchPromises = locations.value.map(location => fetchWeatherData(location))
+        await Promise.all(fetchPromises)
+    }
+
     // Initialize store and fetch data
     const init = async () => {
         if (isInitialized.value) return
 
         isInitialized.value = true
 
-        const fetchPromises = locations.value.map(location => fetchWeatherData(location))
-        await Promise.all(fetchPromises)
-
+        await refreshWeatherData()
     }
 
     // Call init immediately
@@ -72,7 +76,8 @@ export const useWeatherStore = defineStore('weather', () => {
         weatherDataByLocation,
         isInitialized,
         selectedLocation,
-        fetchWeatherData // TODO - to be used to add new location data in Locations.vue
+        fetchWeatherData,
+        refreshWeatherData
     }
 })
 

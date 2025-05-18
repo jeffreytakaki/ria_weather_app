@@ -15,10 +15,13 @@ const handleSelectLocation = (location: string) => {
         <div 
             v-for="location in weatherStore.locations" 
             :key="location"
-            class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 text-center"
+            :class="[
+                'rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 text-center cursor-pointer',
+                weatherStore.selectedLocation === location ? 'bg-green-500 text-white' : 'bg-white'
+            ]"
             @click="() => handleSelectLocation(location)"
-            >
-            <h2  class="text-xl font-semibold text-gray-800 mb-2">{{ location }}</h2>
+        >
+            <h2 class="text-xl font-semibold mb-2" :class="weatherStore.selectedLocation === location ? 'text-white' : 'text-gray-800'">{{ location }}</h2>
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div>
-        <h1>Next Hours</h1>
-    </div>
+    <Container>
+        <h1>Next Hours feature coming soon!</h1>
+    </Container>
 </template>

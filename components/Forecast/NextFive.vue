@@ -47,12 +47,17 @@
         <div v-if="nextFiveDays.length">
             <h1 class="text-2xl font-bold text-blue-500 mb-4">Next 5 days</h1>        
             <div v-for="day in nextFiveDays" :key="day.dt">
-                <div class="flex items-center justify-between">
-                    <div class="text-gray-600">{{ formatDate(day.dt_txt) }}</div>
-                    <div class="text-gray-600">{{ day.weather.description }}</div>
-                    <img :src="`https://openweathermap.org/img/wn/${day.weather.icon}.png`" alt="weather icon" class="w-10 h-10">
-                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_min) }}</div>
-                    <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_max) }}</div>
+                <div class="grid grid-cols-3 gap-4 mb-4 p-4 items-center">
+                    <img :src="`https://openweathermap.org/img/wn/${day.weather.icon}.png`" alt="weather icon" class="w-24 h-24 col-span-1">
+                    <div class="col-span-1">
+                        <div class="text-gray-600">{{ formatDate(day.dt_txt) }}</div>
+                        <div class="text-gray-600">{{ day.weather.description }}</div>
+                    </div>
+                    <div class="flex flex-row items-center justify-center gap-4 col-span-1">
+                        <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_min) }}</div>
+                        <div class="text-blue-600">{{ convertTempToFahrenheit(day.temp_max) }}</div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

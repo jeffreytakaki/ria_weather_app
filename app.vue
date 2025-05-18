@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <div class="bg-blue-500 py-8">
+  <div class="bg-blue-500 py-8 px-4">
     <div class="flex justify-between items-center w-full p-4">
       <h1>Weather App</h1>
       <button 
